@@ -3,3 +3,11 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  #auth
+    if (!isAuthenticated)
+      a(href='/login') login
+    else
+      a(href='/logout') logout
+
+  h1 #{user}
