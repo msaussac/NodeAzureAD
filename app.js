@@ -5,7 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
+  , secure = require('./routes/secure')
   , http = require('http')
   , path = require('path')
   , passport = require('passport')
@@ -52,14 +52,17 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+
 app.get('/login', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: true }), function(req, res) {
-    return user.list;
+    return secure.index;
 });
+
+app.get('/secure', secure.index);
 
 app.post('/login/callback',
   passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: true }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/secure');
   }
 );
 
